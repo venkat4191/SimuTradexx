@@ -152,6 +152,8 @@ def display_portfolio(portfolio_dict, user_balance):
         try:
             stock = yf.Ticker(symbol + ".NS")
             current_price = stock.history(period="1d")["Close"].iloc[-1]
+            # Convert NumPy types to Python types
+            current_price = float(current_price)
             current_value = current_price * shares
             
             # Get average purchase price from database
@@ -169,20 +171,20 @@ def display_portfolio(portfolio_dict, user_balance):
             # Update best and worst performers
             if return_percentage > best_return:
                 best_return = return_percentage
-                portfolio_info['best_performer'] = {'symbol': symbol, 'return_percentage': return_percentage}
+                portfolio_info['best_performer'] = {'symbol': symbol, 'return_percentage': float(return_percentage)}
             if return_percentage < worst_return:
                 worst_return = return_percentage
-                portfolio_info['worst_performer'] = {'symbol': symbol, 'return_percentage': return_percentage}
+                portfolio_info['worst_performer'] = {'symbol': symbol, 'return_percentage': float(return_percentage)}
             
             # Add holding information
             portfolio_info['holdings'].append({
                 'symbol': symbol,
                 'quantity': shares,
-                'avg_price': round(avg_purchase_price, 2),
-                'current_price': round(current_price, 2),
-                'value': round(current_value, 2),
-                'return_percentage': round(return_percentage, 2),
-                'percentage': round((current_value / current_portfolio_value * 100), 2) if current_portfolio_value > 0 else 0
+                'avg_price': round(float(avg_purchase_price), 2),
+                'current_price': round(float(current_price), 2),
+                'value': round(float(current_value), 2),
+                'return_percentage': round(float(return_percentage), 2),
+                'percentage': round(float((current_value / current_portfolio_value * 100)), 2) if current_portfolio_value > 0 else 0
             })
             
         except Exception as e:
@@ -190,9 +192,9 @@ def display_portfolio(portfolio_dict, user_balance):
             continue
     
     # Calculate portfolio metrics
-    portfolio_info['total_value'] = round(current_portfolio_value, 2)
-    portfolio_info['total_investment'] = round(total_investment, 2)
-    portfolio_info['return_percentage'] = round(((current_portfolio_value - total_investment) / total_investment * 100), 2) if total_investment > 0 else 0
+    portfolio_info['total_value'] = round(float(current_portfolio_value), 2)
+    portfolio_info['total_investment'] = round(float(total_investment), 2)
+    portfolio_info['return_percentage'] = round(float(((current_portfolio_value - total_investment) / total_investment * 100)), 2) if total_investment > 0 else 0
     
     # Generate pie chart for portfolio performance
     generate_portfolio_pie_chart(portfolio_dict)
@@ -392,6 +394,8 @@ def buy():
         try:
             stock = yf.Ticker(symbol + ".NS")
             price = stock.history(period="1d")["Close"].iloc[-1]
+            # Convert NumPy types to Python types
+            price = float(price)
             total_cost = price * shares
             
             if total_cost > current_user.balance:
@@ -399,7 +403,7 @@ def buy():
                 return render_template('buy.html', message="Insufficient balance", symbol=symbol, shares=shares)
             
             # Update user balance
-            current_user.balance -= total_cost
+            current_user.balance = float(current_user.balance - total_cost)
             
             # Add to portfolio
             new_portfolio_item = Portfolio(
@@ -431,6 +435,8 @@ def confirm_buy():
     try:
         stock = yf.Ticker(symbol + ".NS")
         price = stock.history(period="1d")["Close"].iloc[-1]
+        # Convert NumPy types to Python types
+        price = float(price)
         total_cost = price * shares
         
         if total_cost > current_user.balance:
@@ -438,7 +444,7 @@ def confirm_buy():
             return render_template('message.html', message="Insufficient balance")
         
         # Update user balance
-        current_user.balance -= total_cost
+        current_user.balance = float(current_user.balance - total_cost)
         
         # Add to portfolio
         new_portfolio_item = Portfolio(
@@ -477,10 +483,12 @@ def sell():
         try:
             stock = yf.Ticker(symbol + ".NS")
             price = stock.history(period="1d")["Close"].iloc[-1]
+            # Convert NumPy types to Python types
+            price = float(price)
             total_value = price * shares
             
             # Update user balance
-            current_user.balance += total_value
+            current_user.balance = float(current_user.balance + total_value)
             
             # Remove shares from portfolio (FIFO method)
             remaining_shares = shares
@@ -524,10 +532,12 @@ def confirm_sell():
     try:
         stock = yf.Ticker(symbol + ".NS")
         price = stock.history(period="1d")["Close"].iloc[-1]
+        # Convert NumPy types to Python types
+        price = float(price)
         total_value = price * shares
         
         # Update user balance
-        current_user.balance += total_value
+        current_user.balance = float(current_user.balance + total_value)
         
         # Remove shares from portfolio (FIFO method)
         remaining_shares = shares
@@ -656,6 +666,16 @@ def check_user_shares(symbol):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5003))
     app.run(host='0.0.0.0', port=port, debug=False)
+
+
+
+
+
+
+
+
+
+
 
 
 
