@@ -90,13 +90,16 @@
         @media (max-width: 768px) {
             .input-field {
                 padding: 8px 12px;
-                font-size: 14px;
+                font-size: 12px !important;
                 border-radius: 15px;
             }
             .btn {
                 padding: 8px 16px;
-                font-size: 14px;
+                font-size: 12px !important;
                 border-radius: 15px;
+            }
+            .search-icon {
+                margin-right: 4px !important;
             }
         }
         .metric-card {
@@ -248,8 +251,8 @@
                     <input type="text" name="symbol" placeholder="Enter stock symbol (e.g., RELIANCE, TCS)" 
                            class="input-field text-xs md:text-base py-2 px-3 md:py-3 md:px-4"
                            required>
-                    <button type="submit" class="btn text-sm md:text-base py-2 px-3 md:py-3 md:px-4">
-                        <i class="fas fa-search mr-2 md:mr-3"></i>Analyze Stock
+                    <button type="submit" class="btn text-xs md:text-base py-2 px-3 md:py-3 md:px-4">
+                        <i class="fas fa-search search-icon mr-1 md:mr-3"></i>Analyze Stock
                     </button>
                 </form>
             </div>
@@ -482,3 +485,4 @@
     </script>
 </body>
 </html> 
+
