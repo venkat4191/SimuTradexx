@@ -164,15 +164,28 @@
             <!-- Message Card -->
             <div class="card p-4 md:p-10 max-w-4xl mx-auto mt-16 md:mt-0">
                 <div class="text-center">
-                    {% if success %}
-                    <i class="fas fa-check-circle text-4xl md:text-8xl text-green-500 mb-4 md:mb-6 drop-shadow-lg"></i>
+                    {% if not success and 'symbol' in message|lower %}
+                    <div class="card p-4 md:p-8 bg-red-100 border border-red-300 mb-8 mt-4">
+                        <h2 class="text-base md:text-2xl font-bold mb-2 md:mb-4 text-center text-red-600">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>No Data Found
+                        </h2>
+                        <p class="text-center text-base md:text-lg text-gray-800 font-semibold">
+                            Please check the stock symbol you entered.<br>
+                            <span class="text-red-500 font-bold">Do not enter the company name.</span><br>
+                            Enter the correct NSE symbol (e.g., <b>BHARTIARTL</b>, <b>NVDA</b>).<br>
+                            You can find the correct symbol by searching "COMPANY NAME NSE SYMBOL" on Google.
+                        </p>
+                    </div>
                     {% else %}
-                    <i class="fas fa-exclamation-circle text-4xl md:text-8xl text-red-500 mb-4 md:mb-6 drop-shadow-lg"></i>
+                    <i class="fas fa-check-circle text-4xl md:text-8xl text-green-500 mb-4 md:mb-6 drop-shadow-lg"></i>
                     {% endif %}
-                    <h2 class="text-lg md:text-4xl font-bold mb-4 md:mb-6 text-gray-800 px-2">{{ message }}</h2>
+                    {% if not success and 'symbol' in message|lower %}
                     <a href="{{ url_for('index') }}" class="btn text-xs md:text-lg py-2 md:py-4 inline-block">
                         <i class="fas fa-arrow-left mr-1 md:mr-3"></i>Return to Home
                     </a>
+                    {% else %}
+                    <h2 class="text-lg md:text-4xl font-bold mb-4 md:mb-6 text-gray-800 px-2">{{ message }}</h2>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -201,4 +214,6 @@
     </script>
 </body>
 </html>
+
+
 
