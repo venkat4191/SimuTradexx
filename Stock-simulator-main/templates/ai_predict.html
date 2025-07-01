@@ -258,6 +258,19 @@
             </div>
 
             {% if prediction %}
+                {% if prediction.current_price == 'N/A' %}
+                <div class="card p-4 md:p-8 bg-red-100 border border-red-300 mb-8">
+                    <h2 class="text-base md:text-2xl font-bold mb-2 md:mb-4 text-center text-red-600">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>No Data Found
+                    </h2>
+                    <p class="text-center text-base md:text-lg text-gray-800 font-semibold">
+                        Please check the stock symbol you entered.<br>
+                        <span class="text-red-500 font-bold">Do not enter the company name.</span><br>
+                        Enter the correct NSE symbol (e.g., <b>BHARTIARTL</b>, <b>NVDA</b>).<br>
+                        You can find the correct symbol by searching "COMPANY NAME NSE SYMBOL" on Google.
+                    </p>
+                </div>
+                {% else %}
                 <!-- Analysis Results -->
                 <div class="space-y-10">
                     <!-- Price Prediction -->
@@ -461,6 +474,7 @@
                     </div>
                     {% endif %}
                 </div>
+                {% endif %}
             {% endif %}
         </div>
     </div>
