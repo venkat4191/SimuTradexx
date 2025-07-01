@@ -663,13 +663,15 @@ def check_user_shares(symbol):
             'error': f'Error checking shares for {symbol}: {str(e)}'
         })
 
+@app.route('/invalid_symbol')
+def invalid_symbol():
+    symbol = request.args.get('symbol', '')
+    message = f"No data found for symbol '{symbol}'. Please check the stock symbol you entered. Do not enter the company name. Enter the correct NSE symbol (e.g., BHARTIARTL, NVDA). You can find the correct symbol by searching 'COMPANY NAME NSE SYMBOL' on Google."
+    return render_template('message.html', message=message, success=False)
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5003))
     app.run(host='0.0.0.0', port=port, debug=False)
-
-
-
-
 
 
 
