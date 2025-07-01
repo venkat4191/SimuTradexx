@@ -286,6 +286,18 @@
                         </div>
                     </div>
                 </div>
+                <!-- Error Message for Invalid Symbol -->
+                <div id="invalid-symbol-error" class="hidden card p-4 md:p-8 bg-red-100 border border-red-300 mb-8 mt-4">
+                    <h2 class="text-base md:text-2xl font-bold mb-2 md:mb-4 text-center text-red-600">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>No Data Found
+                    </h2>
+                    <p class="text-center text-base md:text-lg text-gray-800 font-semibold">
+                        Please check the stock symbol you entered.<br>
+                        <span class="text-red-500 font-bold">Do not enter the company name.</span><br>
+                        Enter the correct NSE symbol (e.g., <b>BHARTIARTL</b>, <b>NVDA</b>).<br>
+                        You can find the correct symbol by searching "COMPANY NAME NSE SYMBOL" on Google.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -385,10 +397,12 @@
                     document.querySelector('.equal-aspect-form').classList.add('expanded');
                     
                 } else {
-                    alert('Error fetching price: ' + data.error);
+                    // Redirect to message page for invalid symbol
+                    window.location.href = `/invalid_symbol?symbol=${encodeURIComponent(symbol)}`;
                 }
             } catch (error) {
-                alert('Error fetching stock price. Please try again.');
+                // Redirect to message page for invalid symbol
+                window.location.href = `/invalid_symbol?symbol=${encodeURIComponent(symbol)}`;
             } finally {
                 checkPriceBtn.innerHTML = '<i class="fas fa-search mr-1 md:mr-3"></i>Check Price & Review';
                 checkPriceBtn.disabled = false;
@@ -407,6 +421,12 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
